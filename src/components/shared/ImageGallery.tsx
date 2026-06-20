@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { getFirebaseCloudinaryUrl } from "@/lib/cloudinary";
 
 interface ImageGalleryProps {
   images: string[];
@@ -46,7 +47,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
           </div>
         ) : (
           <Image
-            src={images[currentIndex]}
+            src={getFirebaseCloudinaryUrl(images[currentIndex], { width: 800, height: 800 })}
             alt={`${productName} - Image ${currentIndex + 1}`}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -114,7 +115,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                 </div>
               ) : (
                 <Image
-                  src={image}
+                  src={getFirebaseCloudinaryUrl(image, { width: 128, height: 128 })}
                   alt={`${productName} thumbnail ${idx + 1}`}
                   fill
                   className="object-cover"

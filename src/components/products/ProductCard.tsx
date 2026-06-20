@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/types";
 import { formatPrice, getWhatsAppLink, getProductWhatsAppMessage } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { getFirebaseCloudinaryUrl } from "@/lib/cloudinary";
 
 interface ProductCardProps {
   product: Product;
@@ -28,7 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <Link href={`/products/${product.id}`} className="relative aspect-[4/3] overflow-hidden bg-muted">
         {product.images && product.images[0] ? (
           <Image
-            src={product.images[0]}
+            src={getFirebaseCloudinaryUrl(product.images[0], { width: 600, height: 450 })}
             alt={product.name}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-110"
