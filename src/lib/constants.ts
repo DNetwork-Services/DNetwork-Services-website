@@ -6,7 +6,7 @@ export const OWNER_NAME = "Deepak Nemade";
 export const OWNER_PHONE = "917709443422";
 export const OWNER_PHONE_DISPLAY = "7709443422";
 export const OWNER_PHONE_ALT = "8999110217";
-export const OWNER_EMAIL = "deepak@dnetwork.com";
+export const OWNER_EMAIL = "dnetworkandservices@gmail.com";
 export const OWNER_ADDRESS = "New Sangvi, Pune, Maharashtra, India";
 
 export const WHATSAPP_NUMBER = "917709443422";
