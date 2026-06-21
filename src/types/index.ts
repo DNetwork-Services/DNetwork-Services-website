@@ -17,7 +17,7 @@ export interface Product {
   availability: "In Stock" | "Sold" | "Coming Soon";
   tags: string[];
   featured: boolean;
-  category: "laptop" | "spare-part" | "accessory";
+  category: "laptop" | "desktop" | "monitor" | "spare-part" | "accessory";
   createdAt: string;
   updatedAt: string;
 }

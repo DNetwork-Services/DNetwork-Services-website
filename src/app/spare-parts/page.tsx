@@ -16,7 +16,7 @@ const defaultFilters: Filters = {
   minPrice: "",
   maxPrice: "",
   sort: "newest",
-  category: "spare-parts",
+  category: "all",
 };
 
 export default function SparePartsPage() {

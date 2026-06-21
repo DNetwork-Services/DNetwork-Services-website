@@ -136,7 +136,7 @@ export function ProductForm({
                     name="category"
                     value={formData.category}
                     onValueChange={(v: string) =>
-                      setFormData((prev) => ({ ...prev, category: v as "laptop" | "spare-part" | "accessory" }))
+                      setFormData((prev) => ({ ...prev, category: v as "laptop" | "desktop" | "monitor" | "spare-part" | "accessory" }))
                     }
                   >
                     <SelectTrigger>
@@ -144,6 +144,8 @@ export function ProductForm({
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="laptop">Laptop</SelectItem>
+                      <SelectItem value="desktop">Desktop</SelectItem>
+                      <SelectItem value="monitor">Monitor</SelectItem>
                       <SelectItem value="spare-part">Spare Part</SelectItem>
                       <SelectItem value="accessory">Accessory</SelectItem>
                     </SelectContent>

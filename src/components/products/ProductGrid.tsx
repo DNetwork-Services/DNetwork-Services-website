@@ -32,6 +32,8 @@ export function ProductGrid({ products, loading, filters }: ProductGridProps) {
         return false;
       if (filters.category && filters.category !== "all") {
         if (filters.category === "laptops" && product.category !== "laptop") return false;
+        if (filters.category === "desktops" && product.category !== "desktop") return false;
+        if (filters.category === "monitors" && product.category !== "monitor") return false;
         if (filters.category === "spare-parts" && product.category !== "spare-part") return false;
         if (filters.category === "accessories" && product.category !== "accessory") return false;
       }
