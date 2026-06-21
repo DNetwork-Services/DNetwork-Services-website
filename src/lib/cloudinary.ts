@@ -1,4 +1,5 @@
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 export function getCloudinaryUrl(publicId: string, options?: {
   width?: number;
@@ -32,4 +33,23 @@ export function getFirebaseCloudinaryUrl(firebaseUrl: string, options?: {
   if (!cloudName) return firebaseUrl;
 
   return `https://res.cloudinary.com/${cloudName}/image/fetch/f_auto,q_${quality},w_${width},h_${height},c_fill/${encodedUrl}`;
+}
+
+export async function uploadToCloudinary(file: File): Promise<string | null> {
+  if (!CLOUD_NAME || !UPLOAD_PRESET) return null;
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", UPLOAD_PRESET);
+
+  try {
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      { method: "POST", body: formData }
+    );
+    const data = await res.json();
+    return data.secure_url || null;
+  } catch {
+    return null;
+  }
 }

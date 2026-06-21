@@ -13,13 +13,8 @@ import {
   getDoc,
   Timestamp,
 } from "firebase/firestore";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
-import { db, storage } from "@/lib/firebase";
+import { db } from "@/lib/firebase";
+import { uploadToCloudinary } from "@/lib/cloudinary";
 import { Product } from "@/types";
 
 export function useProducts() {
@@ -77,7 +72,7 @@ export function useProducts() {
     data: Omit<Product, "id" | "createdAt" | "updatedAt">,
     imageFiles: File[]
   ): Promise<string | null> => {
-    if (!db || !storage) return null;
+    if (!db) return null;
     try {
       const imageUrls = await uploadImages(imageFiles);
       const docRef = await addDoc(collection(db, "products"), {
@@ -99,7 +94,7 @@ export function useProducts() {
     data: Partial<Product>,
     newImages?: File[]
   ): Promise<boolean> => {
-    if (!db || !storage) return false;
+    if (!db) return false;
     try {
       let imageUrls = data.images || [];
       if (newImages && newImages.length > 0) {
@@ -120,19 +115,8 @@ export function useProducts() {
   };
 
   const deleteProduct = async (id: string): Promise<boolean> => {
-    if (!db || !storage) return false;
+    if (!db) return false;
     try {
-      const product = products.find((p) => p.id === id);
-      if (product?.images) {
-        for (const url of product.images) {
-          try {
-            const imageRef = ref(storage, url);
-            await deleteObject(imageRef);
-          } catch {
-            // ignore if already deleted
-          }
-        }
-      }
       await deleteDoc(doc(db, "products", id));
       await fetchProducts();
       return true;
@@ -143,16 +127,10 @@ export function useProducts() {
   };
 
   const uploadImages = async (files: File[]): Promise<string[]> => {
-    if (!storage) return [];
     const urls: string[] = [];
     for (const file of files) {
-      const storageRef = ref(
-        storage,
-        `products/${Date.now()}_${file.name}`
-      );
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
-      urls.push(url);
+      const url = await uploadToCloudinary(file);
+      if (url) urls.push(url);
     }
     return urls;
   };
