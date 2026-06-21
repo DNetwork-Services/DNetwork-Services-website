@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Laptop } from "lucide-react";
 import { PageTransition } from "@/components/shared/PageTransition";
@@ -8,7 +8,6 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { ProductFilters } from "@/components/products/ProductFilters";
 import { useProducts } from "@/hooks/useProducts";
 import { ProductFilters as Filters } from "@/types";
-import type { Metadata } from "next";
 
 const defaultFilters: Filters = {
   search: "",
@@ -23,6 +22,11 @@ const defaultFilters: Filters = {
 export default function ProductsPage() {
   const { products, loading } = useProducts();
   const [filters, setFilters] = useState<Filters>(defaultFilters);
+
+  const computers = useMemo(
+    () => products.filter((p) => p.category === "laptop" || p.category === "desktop" || p.category === "monitor"),
+    [products]
+  );
 
   const clearFilters = () => setFilters(defaultFilters);
 
@@ -40,10 +44,10 @@ export default function ProductsPage() {
               Products
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2">
-              Our <span className="text-gradient">Laptops</span>
+              Our <span className="text-gradient">Products</span>
             </h1>
             <p className="text-muted-foreground">
-              Browse our collection of quality refurbished and used laptops.
+              Browse our collection of quality refurbished laptops, desktops, and more.
             </p>
           </motion.div>
 
@@ -56,7 +60,7 @@ export default function ProductsPage() {
           </div>
 
           <ProductGrid
-            products={products}
+            products={computers}
             loading={loading}
             filters={filters}
           />
